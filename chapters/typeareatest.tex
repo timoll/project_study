@@ -24,31 +24,51 @@ Well known is this: The quick brown fox jumps over the lazy old dog. Often in ty
 \subsection{Storage Containers}
 \label{subsec:satzspiegeltest_typoblindtext_demonstrandum}
 
-Qt has an implementations for all popular storage containers. They all have different structures and are intended for different applications. The Containers can be categorized in two major categories. The first is index lookup where each element is stored at a certain index. The second is key lookup and all elements are stored with a key.
+Qt has an implementations for all popular storage containers. They all have different structures and are intended for different applications. The Containers can be categorized in two major categories. The first are sequential container each element is stored at a certain index and can be accessed over said index. The second are associative containers and set where all elements are stored with a key. The algorithmic complexity of the  containers are shown in Table ~\ref{tab:qt-container-sequential} for the sequential containers and in Table ~\ref{tab:qt-container-associative}.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
 % \usepackage{multirow}
-\begin{table}[]
+
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[!htb]
 \centering
 
-\label{my-label}
 \begin{tabular}{@{}|l|l|l|l|l|@{}}
 \toprule
+                                  & Index lookup & Insertion & Prepending  & Appending   \\ \midrule
+QLinkedList\textless T\textgreater & O(n)         & O(1)      & O(1)        & O(1)        \\ \midrule
+QList\textless T\textgreater       & O(1)         & O(n)      & Amort. O(1) & Amort. O(1) \\ \midrule
+QVector\textless T\textgreater     & O(1)         & O(n)      & O(n)        & Amort. O(1) \\ \bottomrule
+\end{tabular}
+\caption{Algorithmic Complexity of the sequential Qt Containers where each element can be accessed over an index \cite{QtDoc:Containers}}
+\label{tab:qt-container-sequential}
+\end{table}
+
+\begin{table}[!htb]
+
+\centering
+\begin{tabular}{@{}|l|l|l|l|l|@{}}
+\toprule
+
 \multirow{2}{*}{}                    & \multicolumn{2}{l|}{Key lookup} & \multicolumn{2}{l|}{Insertion} \\ \cmidrule(l){2-5} 
                                      & Average         & Worst Case    & Average        & Worst case    \\ \midrule
 QMap\textless Key, T\textgreater      & O(log n)        & O(log n)      & O(log n)       & O(log n)      \\ \midrule
 QMultiMap\textless Key, T\textgreater & O(log n)        & O(log n)      & O(log n)       & O(log n)      \\ \midrule
 QHash\textless Key, T\textgreater     & Amort. O(1)     & O(n)          & Amort. O(1)    & O(n)          \\ \midrule
-QSet\textless Key\textgreater     & Amort. O(1)     & O(n)          & Amort. O(1)    & O(n)          \\ \bottomrule
+QSet\textless Key\textgreater         & Amort. O(1)     & O(n)          & Amort. O(1)    & O(n)          \\ \bottomrule
 \end{tabular}
-\caption{Algorithmic Complexity of Qt-Container with key lookup and insertion
+\caption{Algorithmic Complexity of the associative Qt Containers where each element can be accessed over the associated key \cite{QtDoc:Containers}}
+\label{tab:qt-container-associative}
 \end{table}
 
-\subsubsection{Subsubsection}
+\subsubsection{QLinkedList}
 
-This is a typo dummy text. On it you can see if all the letters there are and how they look. Sometimes one uses words like Hamburgefonts, Rafgenduks or Handgloves to test fonts. Sometimes phrases that contain all letters of the alphabet - one calls these sets "pangrams". 
+QLinkedList stores elements by pointing to the previous and next elements, creating a chain that is linked together. Because the pointer to an element is only stored in the adjacent elements, it is slow when accessing an element over an index. However when accessed over an iterator it is possible to insert an element at any point during the traversal of the linked list.
 
+\subsubsection{QList}
+QList allows for fast access over an index and allocates space before and after its internal array which usually results in constant time insertion on both ends of the list as shown in \ref{tab:qt-container-sequential}. It has to be noted that QList allocates its elements on the heap when they use more storage space than a pointer.\cite{QtDoc:QList}
 \subsubsection{Subsubsection}
 
 Well known is this: The quick brown fox jumps over the lazy old dog. Often in type dummy texts also foreign-language sentence parts are installed (AVAIL\textsuperscript{\texttrademark} and Wefox\textsuperscript{\textregistered} are testing aussi la Kerning) to test the effect in other languages. In Latin, for example, almost every font looks good. Quod erat demonstrandum.
