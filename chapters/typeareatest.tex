@@ -64,16 +64,39 @@ QSet\textless Key\textgreater         & Amort. O(1)     & O(n)          & Amort.
 \end{table}
 
 \subsubsection{QLinkedList}
-
+\label{sec:QLikedList}
 QLinkedList stores elements by pointing to the previous and next elements, creating a chain that is linked together. Because the pointer to an element is only stored in the adjacent elements, it is slow when accessing an element over an index. However when accessed over an iterator it is possible to insert an element at any point during the traversal of the linked list.
 
 \subsubsection{QList}
+\label{sec:QList}
 QList allows for fast access over an index and allocates space before and after its internal array which usually results in constant time insertion on both ends of the list as shown in \ref{tab:qt-container-sequential}. It has to be noted that QList allocates its elements on the heap when they use more storage space than a pointer.\cite{QtDoc:QList}
-\subsubsection{Subsubsection}
+\subsubsection{QVector}
+\label{sec:QVector}
+QVector is similar to QList as it can also be accessed over an index in constant time. Because QVector doesn't allocate storage before the array it is not possible to prepend objects in constant time. QVector stores each element successively.
+\subsubsection{QHash}
+\label{sec:QHash}
+QHash uses a hash table to store its associated key-value pairs. The advantage of that is fast insertion and lookup of a key, usually in constant time. The hash table is not sorted, so an item with the key ``15'' can be followed by an item with the key ``4''. QHash automaticly grows and shrinks according to the number of stored elements. 
+\subsubsection{QMap}
+\label{sec:QMap}
+QMap is similar in the usage as a QHash. The main difference is that QMap sorts the keys. So an item with the key ``4'' is followed by an item with the key ``15'' when there is no key between the two values. The tradeoff for that is slower lookup and insertion of logarithmic time.
+\subsubsection{QMultiMap}
+\label{sec:QMultiMap}
+QMultiMap has the same properties as a QMap but is more convenient if you want to store multiple values per key.
+\subsubsection{QSet}
+\label{sec:QSet}
+QSet is similar to QHash but it does not store a value. An application for a QSet is to store a stream of values without storing duplicates.
+\subsection{Containers in Gazelle View}
+\label{sec:containersGazelleView}
+In Gazelle View there are multiple sets of data that needs to be stored. There are the decoded Frames that need to be handled dynamicaly, the position an the timestamp of each overlay and the timestamp for each frame. Each of those datasets has different requitement and the best storage container needs to be evaluated.
+\subsubsection{Framebuffer}
+\label{sec:frameBuffer}
+Each frame contains a large amount of Data of around 6 MB per picture of a FullHD stream. Additionaly it is also important to store the associated framenumber for each frame. As the buffer is usually a continuous flow of data this can be done with a sequential container with an offset or an associative container with the key represented as frame. Disadvantage of sequential containers are that if you move the first stored frame to the first index the container needs to be rearanged each time frames are deleted. If the frames are stored at the index of their framenumber you have a very large container with mostly empty elements and you need to keep track where how many elements are stored to free the buffer efficiently.
 
-Well known is this: The quick brown fox jumps over the lazy old dog. Often in type dummy texts also foreign-language sentence parts are installed (AVAIL\textsuperscript{\texttrademark} and Wefox\textsuperscript{\textregistered} are testing aussi la Kerning) to test the effect in other languages. In Latin, for example, almost every font looks good. Quod erat demonstrandum.
-
-\section{Webstandards}
+Because the frames don't need to be sorted it is best to use a QHash to store a frame with the framenumber as key. It allows for uncomplicated insertion and checks of how many frames are already stored for handling of the buffersize.
+\subsubsection{Overlays}
+\label{sec:overlays}
+An overlay consists of the position where the overlay should be placed and the timestamp when the overlay should be displayed. 
+\section{Webstandards}+
 \label{sec:satzspiegeltest_webstandards}
 
 Everywhere the same old story. The layout is complete, the text is slow in coming. This layout is now not naked in space and small and empty occurs, I help out: the dummy text. Created exactly for this purpose, always in the shadow of my big brother "Lorem Ipsum", I look forward every time you read a few lines. Because esse est percipi - being is to be perceived.
