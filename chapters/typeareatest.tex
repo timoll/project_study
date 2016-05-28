@@ -24,7 +24,7 @@ Well known is this: The quick brown fox jumps over the lazy old dog. Often in ty
 \subsection{Storage Containers}
 \label{subsec:satzspiegeltest_typoblindtext_demonstrandum}
 
-Qt has an implementations for all popular storage containers. They all have different structures and are intended for different applications. The Containers can be categorized in two major categories. The first are sequential container each element is stored at a certain index and can be accessed over said index. The second are associative containers and set where all elements are stored with a key. The algorithmic complexity of the  containers are shown in Table ~\ref{tab:qt-container-sequential} for the sequential containers and in Table ~\ref{tab:qt-container-associative}.
+Qt has an implementations for all popular storage containers. They all have different structures and are intended for different applications. The Containers can be categorized in two major categories. The first are sequential container each element is stored at a certain index and can be accessed over said index. The second are associative containers and set where all elements are stored with a key. The algorithmic complexity of the  containers are shown in Table ~\ref{tab:qt-container-sequential} for the sequential containers and in Table ~\ref{tab:qt-container-associative}. O(n) stands for linear time so it scales linearly with the size of a container. O(1) stands for constant time, so each operation takes a fixed amount of time no matter how big the container is. O(log(n)) equals linear time. So the cost of an operation on a container raises logarithmic to the number of items in that container. If the behavior is not guarantied it is specified as amortized.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
@@ -78,7 +78,7 @@ QVector is similar to QList as it can also be accessed over an index in constant
 QHash uses a hash table to store its associated key-value pairs. The advantage of that is fast insertion and lookup of a key, usually in constant time. The hash table is not sorted, so an item with the key ``15'' can be followed by an item with the key ``4''. QHash automaticly grows and shrinks according to the number of stored elements. 
 \subsubsection{QMap}
 \label{sec:QMap}
-QMap is similar in the usage as a QHash. The main difference is that QMap sorts the keys. So an item with the key ``4'' is followed by an item with the key ``15'' when there is no key between the two values. The tradeoff for that is slower lookup and insertion of logarithmic time.
+QMap is similar in the usage as a QHash. The main difference is that QMap sorts the keys. So an item with the key ``4'' is followed by an item with the key ``15'' when there is no key between the two values. The trade-off for that is slower lookup and insertion of logarithmic time.
 \subsubsection{QMultiMap}
 \label{sec:QMultiMap}
 QMultiMap has the same properties as a QMap but is more convenient if you want to store multiple values per key.
@@ -90,12 +90,23 @@ QSet is similar to QHash but it does not store a value. An application for a QSe
 In Gazelle View there are multiple sets of data that needs to be stored. There are the decoded Frames that need to be handled dynamicaly, the position an the timestamp of each overlay and the timestamp for each frame. Each of those datasets has different requitement and the best storage container needs to be evaluated.
 \subsubsection{Framebuffer}
 \label{sec:frameBuffer}
-Each frame contains a large amount of Data of around 6 MB per picture of a FullHD stream. Additionaly it is also important to store the associated framenumber for each frame. As the buffer is usually a continuous flow of data this can be done with a sequential container with an offset or an associative container with the key represented as frame. Disadvantage of sequential containers are that if you move the first stored frame to the first index the container needs to be rearanged each time frames are deleted. If the frames are stored at the index of their framenumber you have a very large container with mostly empty elements and you need to keep track where how many elements are stored to free the buffer efficiently.
+Each frame contains a large amount of Data. Around 6 MB per picture for a fullHD stream. Additionally it is also important to store the associated framenumber for each frame. As the buffer is usually a continuous flow of data this can be done with a sequential container with an offset or an associative container with the key represented as frame. Disadvantage of sequential containers are that if you move the first stored frame to the first index the container needs to be rearranged each time frames are deleted. If the frames are stored at the index of their framenumber you have a very large container with mostly empty elements and you need to keep track where how many elements are stored to free the buffer efficiently.
 
 Because the frames don't need to be sorted it is best to use a QHash to store a frame with the framenumber as key. It allows for uncomplicated insertion and checks of how many frames are already stored for handling of the buffersize.
 \subsubsection{Overlays}
 \label{sec:overlays}
-An overlay consists of the position where the overlay should be placed and the timestamp when the overlay should be displayed. 
+An overlay consists of the position where it should be placed and the timestamp when it should be displayed. Access is usually over a timestamp to get an overlay that is before or after said timestamp. To accomplish that the container needs to be associative and sorted. QMap fulfills those requirements perfectly.
+\subsubsection{Timestamps}
+\label{sec:timestamps}
+The timestamps consists out of a continuous list of timestamps for each frame. It needs to be possible to access the timestamp for each frame and the frame before a timestamp. There are a few options to solve this dual access problem. 
+
+The first is a QVector where each timestamp is stored at the index of the corresponding frame. The advantage of that approach is that it is not memory intensive and access of a timestamp of a frame is done in constant time. But o get the frame for a timestamp requires iterating over the QVector resulting in linear time access. As there may be multiple of 10'000 frames per video this is not desirable. 
+
+Another option would consist of a QVector for the timestamps and a QMap for accessing the framenumber from a timestamp. The access over a QMap reduced the time needed from linear to logarithmic time for the cost of duplicating the stored information. 
+
+A third option exploits the fact that timestamps count up. So it is possible to get the correct frame out of timestamps stored in a QVector in logarithmic time with the usage of successive approximation to calculate the frame. As this combines the small memory footprint as the first and fast access of the second option it is the best choice for this problem.
+
+
 \section{Webstandards}+
 \label{sec:satzspiegeltest_webstandards}
 
