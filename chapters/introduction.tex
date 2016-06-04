@@ -18,42 +18,31 @@
 \label{sec:einleitung_aufbau}
 Eye tracking is used to measure where someone is looking. It is used in a wide variety of applications such as marketing research, psychology, virtual reality and sports training. 
 
-To enable high speed eye tracking for sports the HuCE developed an eye tracking system called the Gazelle Eye Tracker that is fast, portable and built for outdoor usage. 
+To enable high speed eye tracking for sports the HuCE developed an eye tracking system called the Gazelle Eye Tracker that is fast, portable and built for outdoor usage. The  
 
-In figure \ref{fig:file_structure} the file structure is shown for this template.
+For analyzing the recorded footage a player that can put an overlay over the video playback.
 
-\begin{figure}[H]
-	\centering
-		\includegraphics[scale=0.85]{images/file_structure.png}
-	\caption{File structure}
-	\label{fig:file_structure}
-\end{figure}
 
-\section{Contact}
+
+\section{Requirements}
 \label{sec:introduction_contact}
 
-The manufacturers of this template welcome any suggestions for improvement. Chapter \ref{sec:introduction_suggestions} shows possible suggestions for improvement\index{suggestions}.
+There a few key requirements that can be categorized in optional and must have. This is done in \ref{tab:requirements}. 
 
 \begin{table}[H]
 	\centering
-		\begin{tabular}{lll} \toprule
-			\textbf{First Name Last Name} & \textbf{E-mail} & \textbf{Function} \\ \midrule
-			Alfred Kaufmann & alfred.kaufmann@bfh.ch & Employer, Project Management, \\
-			& & Supplements, Improvements \\ \midrule
-			Fritz Dellsperger & Retired & Tips on the structure and layout \\ \midrule
-			David Burri & Contracted out & First compilation of the Template \\ \bottomrule
-		\end{tabular}
-	\caption{Contact Persons}
-	\label{tab:Contact Persons}
+	\begin{tabular}{lcc} \toprule
+		\textbf{Requirement} & \textbf{must} & \textbf{optional} \\ \midrule
+		Play video & x &  \\ \midrule
+		Video has overlay & x &  \\ \midrule
+		Step frame for frame \\ forward and backward& x &  \\ \midrule
+		Step overlay for overlay \\ forward and backward& x &  \\ \midrule
+		Overlay and Frames are in sync & x &  \\ \midrule
+		Display data of eye-cameras &  & x \\ \midrule
+		Play at various playspeeds &  & x \\ \midrule
+		Play overlays &  & x \\ \midrule
+	\end{tabular}
+	\caption{List of requirements }
+	\label{tab:requirements}
 \end{table}
-
-
-\section{Suggestions for Improvement}
-\label{sec:introduction_suggestions}
-
-\begin{itemize}
-	\item Create a BFH Style Files
-	\item Template for the Compilation of presentations with \LaTeX{}
-\end{itemize}
-
 

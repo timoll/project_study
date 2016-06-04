@@ -1,46 +1,83 @@
-\chapter{Instructions}
-\label{chap:instructions}
-
-The following table shows some of the most important packages\index{packages} used in the \LaTeX{} template.
-
-\begin{table}[H]
-	\centering
-		\begin{tabular}{p{0.13\textwidth} p{0.75\textwidth}} \toprule
-			\textbf{Package} & \textbf{Function} \\ \midrule
-			\texttt{cmbright}\index{cmbright} & sans serif font "Computer Modern Bright", which supports text encodings\index{text encodings} OT1, T1 and TS1, as well as the mathematical signs and AMS symbols \\ \midrule
-			\texttt{ae} & provides better resolution fonts in PDF files \\ \midrule
-			\texttt{fancyhdr}\index{fancyhdr} & easy adjustment of head- and foot lines \\ \midrule
-			\texttt{graphicx}\index{graphicx} & integration of graphics in \LaTeX{} documents \\ \midrule
-			\texttt{booktabs}\index{booktabs} & better presentation of tables \\ \midrule
-			\texttt{textpos}\index{textpos} & simplified and absolute positioning of boxes on the page \\ \midrule
-			\texttt{hyperref}\index{hyperref} & package to complie links into PDF files \\ \midrule
-			\texttt{geometry}\index{geometry} & simplified and improved adaptation of the standard type area \\ \midrule
-			\texttt{makeidx}\index{makeidx} & simple Index compilation (see section \ref{sec:instructions_index}) \\ \midrule
-			\texttt{glossaries}\index{glossaries} & compilation of glossaries (see section \ref{sec:instructions_glossay}) \\ \bottomrule
-		\end{tabular}
-	\caption{Packages}
-	\label{tab:packages}
-\end{table}
-
-
-\section{Subject Indices}
-\label{sec:instructions_index}
-
-\LaTeX{} is not able to create an \gls{Index}\index{Index} in the basic configuration. This can be created in \LaTeX{} with the \texttt{makeidx} package and the \texttt{makeindex}\index{makeindex} program. The following page contains a detailed explanation of how the package works, and its application:
-
-\begin{center}
-	\url{http://en.wikibooks.org/wiki/LaTeX/Indexing}
-\end{center}
-
-Roughly summarized the following points are needed for an index:
-
+\chapter{Gazelle View}
+\label{chap:gazelleView}
+ Gazelle View is the software developed in this project. 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.25]{images/gui_gazelle_view.png}
+ 	\caption{GUI of Gazelle View with the Breeze icon theme}
+ 	\label{fig:guiGazelleView}
+ \end{figure}
+\section{Use cases}
+\label{sec:useCases}
+The use cases for Gazelle View are presented in \ref{fig:useCases} and are deducted from the requirements.
 \begin{itemize}
-	\item Embed the package \texttt{makeidx}.
-	\item Initialize the compilation with the command \texttt{\textbackslash makeindex}.
-	\item Continuously initializing words in the text with the command \texttt{\textbackslash index\{\}}.
-	\item During the first passage of the document's compilation, the directory is created and definitions marked with \texttt{\textbackslash index\{\}} are stored in the \texttt{.idx} file.
-	\item During the second passage the \texttt{.idx} file is sorted, formatted and stored as \texttt{.ind} file whereas \LaTeX{} then inserts the \texttt{.ind} file into the document.
+	\item The user can open a video, overlays and timestamps
+	\item The user can play the video
+	\item The user can pause the video
+	\item The user can go to the next or previous frame
+	\item The user can play overlays
+	\item The user can pause overlays
+	\item The user can go to the next or previous overlay
 \end{itemize}
+\section{Class Diagram}
+Gazelle View is build with four classes as seen in \ref{fig:classDIagram} The GUI is handled by the class MainWindow. User input is forwarded to the class VideoHandler. VideoHandler is in control of which overlay and frame are displayed or decoded and it also manages the buffer. Because decoding is an expensive operation, so VideoHandler orders frames to be decoded from DecodeWorker. DecodeWorker has as sole instance access to the videostream and has to provide metadata such as framerate and how total count of frames in the stream. DecodeWorker runs in it's own thread so it doesn't block the other classes. The class Overlays is responsible to parse overlays and timestamps and find the corresponding frame or overlay for a timestamp.
+\subsection{MainWindow}
+\label{sec:mainWindow}
+MainWindow handles the GUI, user input and displays the image with the overlay. It extends from QMainWindow and allows using the signal/slot framework from Qt. 
+MainWindow sets up the icons of the play/pause, back and forwards buttons for overlay and video so that they use the icon theme of the current desktop environment. Fallback icons are provided for system that don't have themes or themes that don't have the necessary icons. An example of the GUI with the Breeze icon theme from KDE can be seen in \ref{fig:guiGazelleView}.
+
+The communication with the class VideoHandler is done over the signal/slot framework from qt. The slot "displayImage" gets called when VideoHandler want's to display a new image. This image is shown on a QGraphicsScene with black background.
+\subsection{VideoHandler}
+\label{sec:videoHanlder}
+VideoHandler handles a few things.
+\begin{itemize}
+	\item Order new frames to be decoded
+	\item Send a frame to be displayed
+	\item Handle the framebuffer
+	\item Keep overlays and Frames in sync
+	\item Send overlays to be displayed
+\end{itemize}
+VideoHandler extends QObject to communicate with the other classes over the signal/slot framework.
+
+VideoHandler relies on DecodeWorker to decode the frames in a separate thread and on Overlays for getting the information which overlay needs to be displayed on which frame.
+\subsubsection{Framebuffer}
+\label{sec:framebuffer}
+As decided in \ref{sec:frameBuffer} this is done with a QHash with the framenumber as key and a pointer to the Image as value. The buffer is trailing so it stores the last 50-100 frames. This is because the stream can only be decoded forward and jumping to a previous frame is expensive. To keep the size of the framebuffer reasonable a method iterates over the QHash when it get's to large and deletes all frames that are more than 50 frames behind.
+\section{Overlay}
+\label{sec:overlayClass}
+The class Overlays is responsible for the following things.
+\begin{itemize}
+	\item parse file with information about overlays
+	\item parse file of timestamps for the frames
+	\item store overlays and timestamps
+	\item return the overlay before or after a timestamp
+	\item return the frame before a timestamp
+	\item return the timestamp for a certain frame
+\end{itemize}
+The unit of the timestamps don't matter as long as they are the same for overlays and frames. 
+As discussed in \ref{sec:overlays} a QMap stores the information for the overlays. The next or previous overlay is accessible for a timestamp. Additionally the corresponding timestamp for the overlay is also returned.
+\subsection{Timestamps for Frames}
+\label{sec:timestampsForFrames}
+It is required to provide access for both the timestamp for a certain frame and the frame for a certain timestamp. In \ref{sec:timestamps} successive approximation was proposed to solve this issue. The implementation is as follows:
+
+\begin{lstlisting}
+for (int i = 2; i <= size; i *= 2) {
+	if ((frameCount > (currentFrame + size / i)) &&
+		(_sceneFrames.at(currentFrame + size / i) < timestamp)) {
+		currentFrame += size / i;
+	}
+}
+\end{lstlisting}
+\begin{itemize}
+	\item \texttt{\_sceneFrames} is the QVector that stores timestamps
+	\item \texttt{frameCount} is the size of \texttt{\_sceneFrames}
+	\item \texttt{size} is the next higher power of two after \texttt{frameCount}
+	\item \texttt{currentFrame} holds the result at the end of the algorithm
+	\item \texttt{currentFrame + size / i} is the frameindex that is tested
+\end{itemize}
+The result converges to the frameindex that has the timestamp below the timestamp that is supplied. It does so by comparing the supplied timestamp with the timestamp at index $\displaystyle\frac{\mbox{\texttt{size}}}{\mbox{2}}$ of \texttt{\_sceneFrames} first and followed by either $\displaystyle\frac{\mbox{\texttt{size}}}{\mbox{4}}$ or $\displaystyle\frac{\mbox{3 x \texttt{size}}}{\mbox{4}}$ depending on the outcome of the comparison. This goes on until the increment is one.
+
+%The index doubles every iteration and the target timestamp is compared with the %timestamp at the frameindex of the current iteration. Access to  to non-existent %entries are prevented by comparing the frameindex to the size of %\texttt{\_sceneFrames}. The resulting frameindex is set to the tested frameindex %when the timestamp at said index is smaller than the reference timestamp. Otherwise %\texttt{currentFrame} stays the same. 
 
 \section{Glossay}
 \label{sec:instructions_glossay}
