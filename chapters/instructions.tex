@@ -43,7 +43,7 @@ VideoHandler relies on DecodeWorker to decode the frames in a separate thread an
 \subsubsection{Framebuffer}
 \label{sec:framebuffer}
 As decided in \ref{sec:frameBuffer} this is done with a QHash with the framenumber as key and a pointer to the Image as value. The buffer is trailing so it stores the last 50-100 frames. This is because the stream can only be decoded forward and jumping to a previous frame is expensive. To keep the size of the framebuffer reasonable a method iterates over the QHash when it get's to large and deletes all frames that are more than 50 frames behind.
-\section{Overlay}
+\subsection{Overlay}
 \label{sec:overlayClass}
 The class Overlays is responsible for the following things.
 \begin{itemize}
@@ -56,15 +56,15 @@ The class Overlays is responsible for the following things.
 \end{itemize}
 The unit of the timestamps don't matter as long as they are the same for overlays and frames. 
 As discussed in \ref{sec:overlays} a QMap stores the information for the overlays. The next or previous overlay is accessible for a timestamp. Additionally the corresponding timestamp for the overlay is also returned.
-\subsection{Timestamps for Frames}
+\subsubsection{Timestamps for Frames}
 \label{sec:timestampsForFrames}
 It is required to provide access for both the timestamp for a certain frame and the frame for a certain timestamp. In \ref{sec:timestamps} successive approximation was proposed to solve this issue. The implementation is as follows:
 
 \begin{lstlisting}
-for (int i = 2; i <= size; i *= 2) {
-	if ((frameCount > (currentFrame + size / i)) &&
-		(_sceneFrames.at(currentFrame + size / i) < timestamp)) {
-		currentFrame += size / i;
+for (int i = size/2; i >= 1; i /= 2) {
+	if ((frameCount > (currentFrame + i)) &&
+		    (_sceneFrames.at(currentFrame + i) < timestamp)) {
+		currentFrame += i;
 	}
 }
 \end{lstlisting}
@@ -73,9 +73,27 @@ for (int i = 2; i <= size; i *= 2) {
 	\item \texttt{frameCount} is the size of \texttt{\_sceneFrames}
 	\item \texttt{size} is the next higher power of two after \texttt{frameCount}
 	\item \texttt{currentFrame} holds the result at the end of the algorithm
-	\item \texttt{currentFrame + size / i} is the frameindex that is tested
+	\item \texttt{currentFrame +  i} is the frameindex that is tested
 \end{itemize}
 The result converges to the frameindex that has the timestamp below the timestamp that is supplied. It does so by comparing the supplied timestamp with the timestamp at index $\displaystyle\frac{\mbox{\texttt{size}}}{\mbox{2}}$ of \texttt{\_sceneFrames} first and followed by either $\displaystyle\frac{\mbox{\texttt{size}}}{\mbox{4}}$ or $\displaystyle\frac{\mbox{3 x \texttt{size}}}{\mbox{4}}$ depending on the outcome of the comparison. This goes on until the increment is one.
+
+\subsection{DecodeWorker}
+\label{sec:decodeWorker}
+The job of the DecodeWorker is to decode frames and convert them into a usable format so that the frame can be displayed on screen on a QGraphicScene. A library that enables decoding frames and give access to the pixeldata of each frame is OpenCV. It would also be possible to play videos with QMultiMedia. The disadvantage of this is that there is no direct access to each frame and the pixel data. OpenCV was chosen because i in the future it might be a requirement to manipulate or analyze each frame of the stream and OpenCV provides many tools that enable that.
+
+Decoding and converting a video stream takes time so DecodeWorker is moved to it's own thread so it doesn't block the GUI or other parts of the program. Resulting race conditions are mitigated by the use of QMutex.
+
+\subsubsection{Getting a Frame Ready}
+\label{sec:gettingAFrameReady}
+The frame needs to be stored as a QPixMapItem in order to be displayed on a QGraphicsScene. This is done by a few steps:
+\begin{enumerate}
+	\item Decode a single frame with OpenCV into a Mat
+	\item Convert the Mat from BGR to RGB
+	\item Transfer the picture data from the Mat to a QImage
+	\item convert the QImage to a QPixMap
+\end{enumerate}
+
+The second step is required because OpenCV stores its images in the BGR format instead of the more common RGB format.
 
 %The index doubles every iteration and the target timestamp is compared with the %timestamp at the frameindex of the current iteration. Access to  to non-existent %entries are prevented by comparing the frameindex to the size of %\texttt{\_sceneFrames}. The resulting frameindex is set to the tested frameindex %when the timestamp at said index is smaller than the reference timestamp. Otherwise %\texttt{currentFrame} stays the same. 
 
