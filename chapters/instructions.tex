@@ -4,27 +4,41 @@
  \begin{figure}[H]
  	\centering
  	\includegraphics[scale=0.25]{images/gui_gazelle_view.png}
- 	\caption{GUI of Gazelle View with the Breeze icon theme}
+ 	\caption{\gls{GUI} of Gazelle View with the Breeze icon theme}
  	\label{fig:guiGazelleView}
  \end{figure}
 \section{Use cases}
 \label{sec:useCases}
 The use cases for Gazelle View are presented in \ref{fig:useCases} and are deducted from the requirements.
+\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.7]{images/useCaseDiagram.png}
+ 	\caption{Use Cases for Gazelle View}
+	\label{fig:useCases}
+\end{figure}
 \begin{itemize}
 	\item The user can open a video, overlays and timestamps
 	\item The user can play the video
 	\item The user can pause the video
 	\item The user can go to the next or previous frame
+	\item The user can seek
 	\item The user can play overlays
 	\item The user can pause overlays
 	\item The user can go to the next or previous overlay
 \end{itemize}
 \section{Class Diagram}
-Gazelle View is build with four classes as seen in \ref{fig:classDIagram} The GUI is handled by the class MainWindow. User input is forwarded to the class VideoHandler. VideoHandler is in control of which overlay and frame are displayed or decoded and it also manages the buffer. Because decoding is an expensive operation, so VideoHandler orders frames to be decoded from DecodeWorker. DecodeWorker has as sole instance access to the videostream and has to provide metadata such as framerate and how total count of frames in the stream. DecodeWorker runs in it's own thread so it doesn't block the other classes. The class Overlays is responsible to parse overlays and timestamps and find the corresponding frame or overlay for a timestamp.
+Gazelle View is build with four classes as seen in \ref{fig:classDiagram} The GUI is handled by the class MainWindow. User input is forwarded to the class VideoHandler. VideoHandler is in control of which overlay and frame are displayed or decoded and it also manages the buffer. Because decoding is an expensive operation, so VideoHandler orders frames to be decoded from DecodeWorker. DecodeWorker has as sole instance access to the videostream and has to provide metadata such as framerate and how total count of frames in the stream. DecodeWorker runs in it's own thread so it doesn't block the other classes. The class Overlays is responsible to parse overlays and timestamps and find the corresponding frame or overlay for a timestamp.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.8]{images/classDiagram.png}
+	\caption{Class Diagram for Gazelle View}
+	\label{fig:classDiagram}
+\end{figure}
+
 \subsection{MainWindow}
 \label{sec:mainWindow}
-MainWindow handles the GUI, user input and displays the image with the overlay. It extends from QMainWindow and allows using the signal/slot framework from Qt. 
-MainWindow sets up the icons of the play/pause, back and forwards buttons for overlay and video so that they use the icon theme of the current desktop environment. Fallback icons are provided for system that don't have themes or themes that don't have the necessary icons. An example of the GUI with the Breeze icon theme from KDE can be seen in \ref{fig:guiGazelleView}.
+MainWindow handles the \gls{GUI}, user input and displays the image with the overlay. It extends from QMainWindow and allows using the signal/slot framework from Qt. 
+MainWindow sets up the icons of the play/pause, back and forwards buttons for overlay and video so that they use the icon theme of the current desktop environment. Fallback icons are provided for system that don't have themes or themes that don't have the necessary icons. An example of the \gls{GUI} with the Breeze icon theme from \gls{KDE} can be seen in \ref{fig:guiGazelleView}.
 
 The communication with the class VideoHandler is done over the signal/slot framework from qt. The slot "displayImage" gets called when VideoHandler want's to display a new image. This image is shown on a QGraphicsScene with black background.
 \subsection{VideoHandler}
@@ -96,51 +110,5 @@ The frame needs to be stored as a QPixMapItem in order to be displayed on a QGra
 The second step is required because OpenCV stores its images in the BGR format instead of the more common RGB format.
 
 %The index doubles every iteration and the target timestamp is compared with the %timestamp at the frameindex of the current iteration. Access to  to non-existent %entries are prevented by comparing the frameindex to the size of %\texttt{\_sceneFrames}. The resulting frameindex is set to the tested frameindex %when the timestamp at said index is smaller than the reference timestamp. Otherwise %\texttt{currentFrame} stays the same. 
-
-\section{Glossay}
-\label{sec:instructions_glossay}
-
-A glossary\index{glossary} can also be created in \LaTeX{} with the \texttt{makeindex} program and the \texttt{glossaries} package. The following list shows the procedure to generate a glossary:
-
-\begin{itemize}
-	\item Integration of the package \texttt{glossaries}.
-	\item If necessary, a personal database may be created including glossary entries. This template works with such a database, which is stored in the \texttt{database}folder. Entries from the database are only written in the directory if the word in the text is actually stated.
-	\item With the \texttt{\textbackslash makeglossaries} command a new compilation is initialized.
-	\item New entries can be created with the command \\ \texttt{\textbackslash newglossaryentry\{<SHORTCUT>\}\{name=\{<NAME>\},description=\{<DESCRIPTION>\}\}}.
-	\item In the text continuously referencing words with the command \texttt{\textbackslash gls\{<SHORTCUT>\}}.
-	\item Similar to the compilation of the index, the directory is only embedded into the document  during the second passage.
-\end{itemize}
-
-In order to work accurately, the glossary must be compiled with \texttt{makeindex} after post-editing the document. For this the following code in the command line is to be executed:
-
-\begin{center}
-	\texttt{makeindex -s template.ist -t template.glg -o template.gls template.glo}
-\end{center}
-
-With most \LaTeX editors, this can be stated as a post-processing step. The following explanation is for the TeXnicCenter program. Under the menu "Build" > "Define Output Profile..." (short: alt + F7) in the "Postprocessor" register, the window shown in Figure \ref{fig:postprocessing} can be found. Then it is necessary to insert a new entry, when an application as well as an argument must be specified. The application can be found in the MiKTeX installation (\texttt{..\textbackslash MiKTeX X.X\textbackslash miktex\textbackslash bin\textbackslash makeindex.exe}). As an argument, the following line must be entered:
-
-\begin{center}
-	\texttt{-s \string"\%tm.ist\string" -t \string"\%tm.glg\string" -o \string"\%tm.gls\string" \string"\%tm.glo\string" }
-\end{center}
-
-\begin{figure}[H]
-	\centering
-		\includegraphics[scale=0.6]{images/profiles_glossar.png}
-	\caption{Post-processing}
-	\label{fig:postprocessing}
-\end{figure}
-
-
-\section{Bibliography}
-\label{sec:instructions_bibliography}
-
-To compile a bibliography\index{bibliography} one must resort to \gls{BibTeX}. The folder \texttt{database} includes a \texttt{.bib} file with various database entries. How the entries are to be compiled, can be taken from various sources of the Internet or books. The entries in the database will only be written to the directory of the document when the source is actually cited in the text.
-
-Under the following addresses further explanations are found in order to compile the database and its use:
-
-\begin{itemize}
-	\item \url{http://en.wikipedia.org/wiki/BibTeX}
-	\item \url{http://www.bibtex.org/}
-\end{itemize}
 
 

@@ -2,8 +2,158 @@
 \addcontentsline{toc}{chapter}{APPENDICES}
 
 \begingroup\let\clearpage\relax
-\chapter{Arbitrary Appendix}
-\label{chap:appendix_arb}
-\endgroup
+\chapter{Coding Guidelines}
+\label{chap:Coding Conventions}
+\section{Coding Style}
+\begin{itemize}
+	\item In general qtcreator >= 3.3 default C++ (Qt built-in) code style
+	\begin{itemize}
+		\item	\url{http://wiki.qt.io/Coding-Conventions}
+		\item	\url{http://wiki.qt.io/API_Design_Principles}
+	\end{itemize}
+	\item Class names: Start with capital letter, continue with Capital Letter for each word. SourceFilter.
+	\item File Names: source\_filter.h source\_filter\_p.h source\_filter.cpp (as it is)
+	\item Use \textbf{"abstract"} instead of "interface": AbstractDataSource
+	\item Local Variables, \textbf{camelCase}: isEnabled
+	\item Global Variables, prefix \textbf{with underscore}: \_isEnabled
+	\item \textbf{No} variable \textbf{prefixes} like \sout{lisWidgets}
+	\item Function Names, camelCase: setEnabled
+	\item Indention: \textbf{4 spaces} instead of tab
+	\item Doxygen: Class, Public Functions, Enums and Private Functions have a \textbf{doxygen comment in the header file}. Variables optional
+	\item \textbf{Getter / Setter} should stick together in .h and .cpp
+	\item Pointer symbol and ampersand belong to variable type (Foo* foo, Bar\& bar)
+	\item \textbf{Signal / Slots} have no prefix \sout{slotStartExport}
+	\item Try to have a \textbf{minimal list of includes}.
+	\item Your Code shall produce \textbf{no compiler Warnings!}
+\end{itemize}
 
-The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages. The new common language will be more simple and regular than the existing European languages. It will be as simple as Occidental; in fact, it will be Occidental. 
+\textbf{If/else statement}
+\begin{lstlisting}
+if (condition) {
+
+} else {
+
+}
+\end{lstlisting}
+\textbf{Switch case}
+\begin{lstlisting}
+switch (control) {
+case value:
+
+	break;
+default:
+	break;
+}
+\end{lstlisting}
+\textbf{For loop}
+\begin{lstlisting}
+for (unsigned var = 0; var < total; var++) {
+
+}
+\end{lstlisting}
+\textbf{Range based for loop}
+\begin{lstlisting}
+for (auto const& e : container) {
+
+}
+\end{lstlisting}
+\textbf{While loop}
+\begin{lstlisting}
+while (condition) {
+
+}
+\end{lstlisting}
+\textbf{const / ampersand placement}
+\begin{lstlisting}
+void Foo::printDebug(QString const& text)
+{
+    qDebug() << text;
+}
+\end{lstlisting}
+\textbf{Connect}
+\begin{lstlisting}
+connect(instance, &Class::cameraChanged, ui->cameraBox, &QComboBox::setCurrentIndex);
+
+connect(_controller, &Controller::updateViewport ,this, (void(QOpenGLWidget::*)())&QOpenGLWidget::update);
+
+connect(ui->counterButton, &QAbstractButton::pressed, [=] () {
+    int const currentValue = ui->counterButton->text().toInt();
+    ui->counterButton->setText(QString::number(currentValue + 1));
+});
+\end{lstlisting}
+\newpage
+\section{Best Practices \& Tips}
+\textbf{QSharedPointer}
+Illustration of a Common Problem:
+\begin{lstlisting}
+int a;
+QSharedPointer<int> pa (&a);
+QSharedPointer<int> pb (&a);
+pa!=pb //Both shared pointers will have a separate refcounting
+\end{lstlisting}
+You shall not pass a raw pointer to One Object more than once to a QSharedPointer (Constructor). 
+If you have a second location where you need a QSharedPointer to the same Object then you have to Construct that SharedPointer with the Copy-Constructor.
+
+Also: QSharedPointer<...>(this) is always wrong. Use: \url{http://doc.qt.io/qt-5/qenablesharedfromthis.html}
+
+Useful Debugging Helper: \url{http://doc.qt.io/qt-5/qsharedpointer.html#optional-pointer-tracking}
+
+\textbf{QList and QVector}
+\begin{itemize}
+	\item \textbf{Do not use `QList`s.} 
+	
+	They're officialy slow! `QVarLengthArray`, `QVector`, `std::vector` and `std::deque` are your friends.
+	Why? QLists stores only pointer to elements, unless sizeof(T) < sizeof(void*) and you declared T to be a Q\_MOVABLE\_TYPE (with Q\_DECLARE\_TYPEINFO).
+	More infos in the Slides from Oliver Gaffort \url{http://t.co/MEjWZhZ5L2}
+	\item \textbf{Do not pass QLists and QVectors around as Pointers} 
+	
+	QList and QVector are implicitly shared. Passing them around as pointers only raises questions about the ownership, and does not improve performance in any Way.
+	\item \textbf{Do not use range based for loops on Qt-Containers without paying extrem attention!}
+	
+	Using a range based for loop on a Qt-Container which is non-const will cause a deep copy to occour even if you declare the element to be constant. (Reason: QVector::begin() causes a detach). 
+	Use `foreach` (=`QT\_FOREACH`) on qt containers and range-based for loops on std containers.
+\end{itemize}
+\textbf{Custom (Pointer) Types in QVariant}
+
+If you have to store custom types in QVariant, store it with the correct type:
+\begin{lstlisting}
+Bla* foo = ...;
+
+//Wrong!!!!
+QVariant v = QVariant::fromValue(static_cast<void*>(foo));
+Bla* bar = static_cast<Bla*>(v.value<void*>());
+
+//Correct:
+QVariant v = QVariant::fromValue(foo);
+Bla* bar = v.value<Bla*>();
+\end{lstlisting}
+
+\textbf{But this means that I have to register T*\_ with as a Metatype?!}
+
+Yes, in the most cases. 
+But note that you don't have to use qRegisterMetaType\textless T*\textgreater(); because Q\_DECLARE\_METATYPE(T*) is enough.
+\newpage
+\textbf{Don't forget to free instances hidden in a QVariant}
+
+Common problem:
+\begin{lstlisting}
+QVariant v = QVariant::fromValue(new Foo());
+//... 
+//Programm terminates
+//Value stored in Variant was never freed -> MemoryLeak.
+\end{lstlisting}
+
+Either ensure that the Owner of the Object deletes it, or store a QSharedPointer<Foo> in the QVariant!
+
+
+
+
+
+
+
+
+
+
+
+
+\endgroup

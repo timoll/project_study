@@ -36,7 +36,8 @@
 \usepackage{float}														% floating objects
 \usepackage{caption}													% for captions of figures and tables
 \usepackage{booktabs}													% package for nicer tables
-\usepackage{tocvsec2}													% provides means of controlling the sectional numbering
+\usepackage{tocvsec2}	
+\usepackage{hhline}												% provides means of controlling the sectional numbering
 %---------------------------------------------------------------------------
 
 % Load Math Packages
@@ -127,7 +128,8 @@
 
 % Makeindex Package
 %---------------------------------------------------------------------------
-\usepackage{makeidx}                         		% To produce index
+\usepackage{makeidx}  
+\usepackage{ulem}                       		% To produce index
 \makeindex                                    	% Index-Initialisation
 %---------------------------------------------------------------------------
 
@@ -146,6 +148,8 @@
 \usepackage[nonumberlist]{glossaries}
 \makeglossaries
 \include{database/glossary}
+
+
 %---------------------------------------------------------------------------
 
 % Intro:
@@ -204,8 +208,8 @@
 \pagenumbering{arabic}
 
 \include{chapters/introduction}
-\include{chapters/instructions}
 \include{chapters/typeareatest}
+\include{chapters/instructions}
 \include{chapters/Performance}
 \include{chapters/conclusions}
 %---------------------------------------------------------------------------

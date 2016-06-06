@@ -2,5 +2,63 @@
 \label{chap:performance}
 Showing decoded pictures on the screen takes some time. The scene camera of the eye-tracking system record with 30 frames per second at a resolution of 1920x1080. Translated into time that means for each frame there are on average $\displaystyle\frac{\mbox{1s}}{\mbox{30}}=33.3ms$ time for it to be decoded and converted so it is ready to be displayed. 
 
+\section{Measurement}
+\label{sec:measurement}
+The best way to determine the performance of something is to measure it. 
+\subsection{Test Setup}
+\label{sec:testSetup}
+The Measurement was done on a ASUS Zenbook uv32vd with the following specifications:
+\begin{labeling}{zenbook specs}
+	\item [CPU] Intel Core i7-3517U
+	\item [Memory] 10Gb DDR3
+	\item [SSD] Samsung SSD 830 Series (256GB)
+	\item [OS]	Arch Linux x86\_64
+	\item [Qt] 5.6.0-7
+	\item [OpenCV] 3.1.0-3
+\end{labeling}
+For each frame the following durations are recorded:
+\begin{itemize}
+	\item Decode from the videostream
+	\item Conversion from \gls{BGR} to \gls{RGB}
+	\item Data Transfer to QImage
+	\item Conversion to QPixmap
+\end{itemize}
+
+Each duration is measured with QTime and written to a logfile. The measurement is done with a Release version of the GazelleView. The Video used is "Planet Earth: Amazing nature scenery (1080p HD)":
+
+{\centering 
+	\url{https://youtu.be/6v2L2UGZJAM} \par
+}
+\subsection{Results}
+\label{sec:results}
+
+The CPU hovered between 2.6 and 2.7 GHz during the playback and the utilization was between 40 and 45\%. Ram usage of Gazelle View stayed around 1Gb. In total 24228 frames where measured not including the first frame.
+
+The average duration each step took is listed in \ref{tab:averageMaximumTime}. With a total average of 16.5ms it should not be a problem to decode and convert each frame in time. But because there are frames that take longer than 33ms it is better to decode 2-3 frames before the current frame so a slow frame won't cause stutter. Not surprising is that decoding is the most expensive operation followed by the conversion from \gls{BGR} to \gls{RGB}.
+
+\begin{table}[!htb]
+	
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+							& Average	& Maximum       \\ \hline
+		Decode      		& 7.8 ms	& 28 ms			\\ \hline
+		\gls{BGR} to \gls{RGB}			& 5.0 ms	& 17 ms			\\ \hline
+		To QImage     		& 0.0 ms	& 2 ms			\\ \hline
+		To QPixMap         	& 3.7 ms	& 12 ms			\\ \hline
+		Total				& 16.5 ms	& 36 ms 		\\ \hline
+	\end{tabular}
+	\caption{Average and Maximum time for each measured step}
+	\label{tab:averageMaximumTime}
+\end{table} 
+
+
+
+
+
+
+
+
+
 
 
