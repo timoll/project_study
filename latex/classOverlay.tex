@@ -1,0 +1,226 @@
+\hypertarget{classOverlay}{}\section{Overlay Class Reference}
+\label{classOverlay}\index{Overlay@{Overlay}}
+Inheritance diagram for Overlay\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classOverlay}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193}{Parser\+Error} \{ \hyperlink{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193ae7066bd6638ef675ab94e1c083cb1bd0}{No\+Error}, 
+\hyperlink{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193a1784694bdc240ab419e6178291eaa399}{Open\+File\+Error}, 
+{\bfseries Parse\+Error}
+ \}\begin{DoxyCompactList}\small\item\em Overlay\+::\+Parse\+Error Enum for storing euccess of parsing. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Q\+Pair$<$ Q\+Vector2D, qint64 $>$ \hyperlink{classOverlay_a921b608d3714021e122fde3d153f506a}{next\+Overlay} (quint32 \hyperlink{classOverlay_aba30f4cadbcfead2b1b44915617f0d32}{time\+Stamp})
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_a921b608d3714021e122fde3d153f506a}{Overlay\+::next\+Overlay} gets the next overlay after time\+Stamp. \end{DoxyCompactList}\item 
+Q\+Pair$<$ Q\+Vector2D, qint64 $>$ \hyperlink{classOverlay_a08d7f62632a8b2e64a8bb0e9c2860cd3}{next\+Overlay} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_a921b608d3714021e122fde3d153f506a}{Overlay\+::next\+Overlay} gets the next overlay after a time\+Stamp that is internaly stored. \end{DoxyCompactList}\item 
+Q\+Pair$<$ Q\+Vector2D, qint64 $>$ \hyperlink{classOverlay_ae47a6d898295796503682a65ea31ae41}{previous\+Overlay} (quint32 \hyperlink{classOverlay_aba30f4cadbcfead2b1b44915617f0d32}{time\+Stamp})
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_ae47a6d898295796503682a65ea31ae41}{Overlay\+::previous\+Overlay} gets the previous overlay before time\+Stamp. \end{DoxyCompactList}\item 
+Q\+Pair$<$ Q\+Vector2D, qint64 $>$ \hyperlink{classOverlay_abc4a1e11befa7b8f4cf639d7528c3e27}{previous\+Overlay} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_ae47a6d898295796503682a65ea31ae41}{Overlay\+::previous\+Overlay} gets the previous overlay before a time\+Stamp that is internaly stored. \end{DoxyCompactList}\item 
+Q\+Vector$<$ Q\+Vector2D $>$ \hyperlink{classOverlay_a64f4cbdcaab04599465bc4381c134646}{overlays\+To\+Frame} (int \hyperlink{classOverlay_a39d037dcbfcdc8f2aaa39951bcd9acfc}{frame})
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_a64f4cbdcaab04599465bc4381c134646}{Overlay\+::overlays\+To\+Frame}. \end{DoxyCompactList}\item 
+\hyperlink{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193}{Overlay\+::\+Parser\+Error} \hyperlink{classOverlay_add3d9864ecc33df3f599e163c11fcb6d}{parse\+Overlays} (Q\+String file\+Name)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_add3d9864ecc33df3f599e163c11fcb6d}{Overlay\+::parse\+Overlays} parses the content of file\+Name as overlays. Each line that has more or equal to 3 tab separated values and doesn start with \textquotesingle{}\#\textquotesingle{} is parsed. \end{DoxyCompactList}\item 
+\hyperlink{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193}{Overlay\+::\+Parser\+Error} \hyperlink{classOverlay_ac7f1e54f1d27a7ad0c7991dd8afb88f4}{parse\+Frames} (Q\+String file\+Name)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_ac7f1e54f1d27a7ad0c7991dd8afb88f4}{Overlay\+::parse\+Frames} parses the content of file\+Name as timestamp. Each line that has more or equal to 1 tab separated values and doesn start with \textquotesingle{}\#\textquotesingle{} is parsed. \end{DoxyCompactList}\item 
+qint64 \hyperlink{classOverlay_aba30f4cadbcfead2b1b44915617f0d32}{time\+Stamp} (int \hyperlink{classOverlay_a39d037dcbfcdc8f2aaa39951bcd9acfc}{frame})
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_aba30f4cadbcfead2b1b44915617f0d32}{Overlay\+::time\+Stamp} returns the timestamp to frame in constant time. \end{DoxyCompactList}\item 
+int \hyperlink{classOverlay_a39d037dcbfcdc8f2aaa39951bcd9acfc}{frame} (quint32 timestamp)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classOverlay_a39d037dcbfcdc8f2aaa39951bcd9acfc}{Overlay\+::frame} returns the next lower framenumber that comes before timestamp This is done in logarithmic time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\index{Overlay@{Overlay}!Parser\+Error@{Parser\+Error}}
+\index{Parser\+Error@{Parser\+Error}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{Parser\+Error}{ParserError}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Overlay\+::\+Parser\+Error}}\hypertarget{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193}{}\label{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193}
+
+
+Overlay\+::\+Parse\+Error Enum for storing euccess of parsing. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{No\+Error@{No\+Error}!Overlay@{Overlay}}\index{Overlay@{Overlay}!No\+Error@{No\+Error}}\item[{\em 
+No\+Error\hypertarget{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193ae7066bd6638ef675ab94e1c083cb1bd0}{}\label{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193ae7066bd6638ef675ab94e1c083cb1bd0}
+}]Parsing was successfull. \index{Open\+File\+Error@{Open\+File\+Error}!Overlay@{Overlay}}\index{Overlay@{Overlay}!Open\+File\+Error@{Open\+File\+Error}}\item[{\em 
+Open\+File\+Error\hypertarget{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193a1784694bdc240ab419e6178291eaa399}{}\label{classOverlay_a9ef00f03a1372dc5bf0ae9b399c18193a1784694bdc240ab419e6178291eaa399}
+}]Could not open File to parse. \end{description}
+\end{Desc}
+
+
+\subsection{Member Function Documentation}
+\index{Overlay@{Overlay}!frame@{frame}}
+\index{frame@{frame}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{frame(quint32 timestamp)}{frame(quint32 timestamp)}}]{\setlength{\rightskip}{0pt plus 5cm}int Overlay\+::frame (
+\begin{DoxyParamCaption}
+\item[{quint32}]{timestamp}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_a39d037dcbfcdc8f2aaa39951bcd9acfc}{}\label{classOverlay_a39d037dcbfcdc8f2aaa39951bcd9acfc}
+
+
+\hyperlink{classOverlay_a39d037dcbfcdc8f2aaa39951bcd9acfc}{Overlay\+::frame} returns the next lower framenumber that comes before timestamp This is done in logarithmic time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timestamp} & used as a threshold \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+framenumber, always between 0 and the amount of parsed Frames 
+\end{DoxyReturn}
+\index{Overlay@{Overlay}!next\+Overlay@{next\+Overlay}}
+\index{next\+Overlay@{next\+Overlay}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{next\+Overlay(quint32 time\+Stamp)}{nextOverlay(quint32 timeStamp)}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+Pair$<$ Q\+Vector2D, qint64 $>$ Overlay\+::next\+Overlay (
+\begin{DoxyParamCaption}
+\item[{quint32}]{time\+Stamp}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_a921b608d3714021e122fde3d153f506a}{}\label{classOverlay_a921b608d3714021e122fde3d153f506a}
+
+
+\hyperlink{classOverlay_a921b608d3714021e122fde3d153f506a}{Overlay\+::next\+Overlay} gets the next overlay after time\+Stamp. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+Stamp} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+position and timestamp of the next overlay after time\+Stamp If there is no next \hyperlink{classOverlay}{Overlay} after time\+Stamp the function returns -\/1 as time\+Stamp 
+\end{DoxyReturn}
+\index{Overlay@{Overlay}!next\+Overlay@{next\+Overlay}}
+\index{next\+Overlay@{next\+Overlay}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{next\+Overlay()}{nextOverlay()}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+Pair$<$ Q\+Vector2D, qint64 $>$ Overlay\+::next\+Overlay (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_a08d7f62632a8b2e64a8bb0e9c2860cd3}{}\label{classOverlay_a08d7f62632a8b2e64a8bb0e9c2860cd3}
+
+
+\hyperlink{classOverlay_a921b608d3714021e122fde3d153f506a}{Overlay\+::next\+Overlay} gets the next overlay after a time\+Stamp that is internaly stored. 
+
+\begin{DoxyReturn}{Returns}
+position and timestamp of the next overlay after time\+Stamp If there is no next \hyperlink{classOverlay}{Overlay} after an internal stored timestamp the function returns -\/1 as time\+Stamp 
+\end{DoxyReturn}
+\index{Overlay@{Overlay}!overlays\+To\+Frame@{overlays\+To\+Frame}}
+\index{overlays\+To\+Frame@{overlays\+To\+Frame}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{overlays\+To\+Frame(int frame)}{overlaysToFrame(int frame)}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+Vector$<$ Q\+Vector2D $>$ Overlay\+::overlays\+To\+Frame (
+\begin{DoxyParamCaption}
+\item[{int}]{frame}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_a64f4cbdcaab04599465bc4381c134646}{}\label{classOverlay_a64f4cbdcaab04599465bc4381c134646}
+
+
+\hyperlink{classOverlay_a64f4cbdcaab04599465bc4381c134646}{Overlay\+::overlays\+To\+Frame}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & framenumber \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+All overlays that have a timestamp between the timestamp of frame and the next frame as a Q\+Vector 
+\end{DoxyReturn}
+\index{Overlay@{Overlay}!parse\+Frames@{parse\+Frames}}
+\index{parse\+Frames@{parse\+Frames}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{parse\+Frames(\+Q\+String file\+Name)}{parseFrames(QString fileName)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Overlay\+::\+Parser\+Error} Overlay\+::parse\+Frames (
+\begin{DoxyParamCaption}
+\item[{Q\+String}]{file\+Name}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_ac7f1e54f1d27a7ad0c7991dd8afb88f4}{}\label{classOverlay_ac7f1e54f1d27a7ad0c7991dd8afb88f4}
+
+
+\hyperlink{classOverlay_ac7f1e54f1d27a7ad0c7991dd8afb88f4}{Overlay\+::parse\+Frames} parses the content of file\+Name as timestamp. Each line that has more or equal to 1 tab separated values and doesn start with \textquotesingle{}\#\textquotesingle{} is parsed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & Path to the file that is to be parsed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Parser\+Error Open\+File\+Error when it isn\textquotesingle{}t possible to open the file Parse\+Error when the parser failed to parse any line or a line contained invalid characters Noerror when the parser could parse the file successfuly 
+\end{DoxyReturn}
+\index{Overlay@{Overlay}!parse\+Overlays@{parse\+Overlays}}
+\index{parse\+Overlays@{parse\+Overlays}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{parse\+Overlays(\+Q\+String file\+Name)}{parseOverlays(QString fileName)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Overlay\+::\+Parser\+Error} Overlay\+::parse\+Overlays (
+\begin{DoxyParamCaption}
+\item[{Q\+String}]{file\+Name}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_add3d9864ecc33df3f599e163c11fcb6d}{}\label{classOverlay_add3d9864ecc33df3f599e163c11fcb6d}
+
+
+\hyperlink{classOverlay_add3d9864ecc33df3f599e163c11fcb6d}{Overlay\+::parse\+Overlays} parses the content of file\+Name as overlays. Each line that has more or equal to 3 tab separated values and doesn start with \textquotesingle{}\#\textquotesingle{} is parsed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & Path to the file that is to be parsed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Parser\+Error Open\+File\+Error when it isn\textquotesingle{}t possible to open the file Parse\+Error when the parser failed to parse any line or a line contained invalid characters Noerror when the parser could parse the file successfuly 
+\end{DoxyReturn}
+\index{Overlay@{Overlay}!previous\+Overlay@{previous\+Overlay}}
+\index{previous\+Overlay@{previous\+Overlay}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{previous\+Overlay(quint32 time\+Stamp)}{previousOverlay(quint32 timeStamp)}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+Pair$<$ Q\+Vector2D, qint64 $>$ Overlay\+::previous\+Overlay (
+\begin{DoxyParamCaption}
+\item[{quint32}]{time\+Stamp}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_ae47a6d898295796503682a65ea31ae41}{}\label{classOverlay_ae47a6d898295796503682a65ea31ae41}
+
+
+\hyperlink{classOverlay_ae47a6d898295796503682a65ea31ae41}{Overlay\+::previous\+Overlay} gets the previous overlay before time\+Stamp. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+Stamp} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+position and timestamp of the previous overlay before time\+Stamp If there is no previous \hyperlink{classOverlay}{Overlay} before time\+Stamp the function returns -\/1 as time\+Stamp 
+\end{DoxyReturn}
+\index{Overlay@{Overlay}!previous\+Overlay@{previous\+Overlay}}
+\index{previous\+Overlay@{previous\+Overlay}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{previous\+Overlay()}{previousOverlay()}}]{\setlength{\rightskip}{0pt plus 5cm}Q\+Pair$<$ Q\+Vector2D, qint64 $>$ Overlay\+::previous\+Overlay (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_abc4a1e11befa7b8f4cf639d7528c3e27}{}\label{classOverlay_abc4a1e11befa7b8f4cf639d7528c3e27}
+
+
+\hyperlink{classOverlay_ae47a6d898295796503682a65ea31ae41}{Overlay\+::previous\+Overlay} gets the previous overlay before a time\+Stamp that is internaly stored. 
+
+\begin{DoxyReturn}{Returns}
+position and timestamp of the previous overlay before time\+Stamp If there is no previous \hyperlink{classOverlay}{Overlay} before an internal stored timestamp the function returns -\/1 as time\+Stamp 
+\end{DoxyReturn}
+\index{Overlay@{Overlay}!time\+Stamp@{time\+Stamp}}
+\index{time\+Stamp@{time\+Stamp}!Overlay@{Overlay}}
+\subsubsection[{\texorpdfstring{time\+Stamp(int frame)}{timeStamp(int frame)}}]{\setlength{\rightskip}{0pt plus 5cm}qint64 Overlay\+::time\+Stamp (
+\begin{DoxyParamCaption}
+\item[{int}]{frame}
+\end{DoxyParamCaption}
+)}\hypertarget{classOverlay_aba30f4cadbcfead2b1b44915617f0d32}{}\label{classOverlay_aba30f4cadbcfead2b1b44915617f0d32}
+
+
+\hyperlink{classOverlay_aba30f4cadbcfead2b1b44915617f0d32}{Overlay\+::time\+Stamp} returns the timestamp to frame in constant time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+timestamp of frame with framenumber frame, -\/1 if frame is not available 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+overlay.\+h\item 
+overlay.\+cpp\end{DoxyCompactItemize}

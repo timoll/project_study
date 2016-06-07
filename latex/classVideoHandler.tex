@@ -1,0 +1,291 @@
+\hypertarget{classVideoHandler}{}\section{Video\+Handler Class Reference}
+\label{classVideoHandler}\index{Video\+Handler@{Video\+Handler}}
+
+
+The \hyperlink{classVideoHandler}{Video\+Handler} class handles when each frame and overlay gets displayed on screen synchronized, handles the video buffer, requests frames as needed, allows controll of the playback.  
+
+
+
+
+{\ttfamily \#include $<$video\+\_\+handler.\+h$>$}
+
+Inheritance diagram for Video\+Handler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classVideoHandler}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Play\+State} \{ {\bfseries pause}, 
+{\bfseries play\+Video}, 
+{\bfseries play\+Overlays}
+ \}\hypertarget{classVideoHandler_a2b1835a79f75fd56eadac477d3652b91}{}\label{classVideoHandler_a2b1835a79f75fd56eadac477d3652b91}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classVideoHandler_a453238d48cf43f92da176366e0aace6f}{play} ()\hypertarget{classVideoHandler_a453238d48cf43f92da176366e0aace6f}{}\label{classVideoHandler_a453238d48cf43f92da176366e0aace6f}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a453238d48cf43f92da176366e0aace6f}{Video\+Handler\+::play} starts video playback with normal speed If the video is already playing it pauses the playback. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_a7e80d78cb9c2514a2b19c285ddcdd42d}{play\+Overlay} ()\hypertarget{classVideoHandler_a7e80d78cb9c2514a2b19c285ddcdd42d}{}\label{classVideoHandler_a7e80d78cb9c2514a2b19c285ddcdd42d}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a7e80d78cb9c2514a2b19c285ddcdd42d}{Video\+Handler\+::play\+Overlay} starts the playback of the overlays with the speed of the normal video. If the overlays are already playing it will pause the playback. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_af9c6426d96227ffd38c0b7db6aaf037d}{timeout} ()\hypertarget{classVideoHandler_af9c6426d96227ffd38c0b7db6aaf037d}{}\label{classVideoHandler_af9c6426d96227ffd38c0b7db6aaf037d}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_af9c6426d96227ffd38c0b7db6aaf037d}{Video\+Handler\+::timeout} slot that gets called if a new frame or overlay needs to be displayed. Reduces the buffer size to 50 Images if the buffer is bigger than 100 Images. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_aaa4f41896e565606552d960951145ca5}{open} ()\hypertarget{classVideoHandler_aaa4f41896e565606552d960951145ca5}{}\label{classVideoHandler_aaa4f41896e565606552d960951145ca5}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_aaa4f41896e565606552d960951145ca5}{Video\+Handler\+::open} opens a new video file and deletes all previous buffered images. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_a0ea54798e44864231a65bc1e9c3b502e}{open\+Overlay} ()\hypertarget{classVideoHandler_a0ea54798e44864231a65bc1e9c3b502e}{}\label{classVideoHandler_a0ea54798e44864231a65bc1e9c3b502e}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a0ea54798e44864231a65bc1e9c3b502e}{Video\+Handler\+::open\+Overlay} opens a csv file and parses it. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_a31fd29045a8a75b4daad184dd1ddb49e}{open\+Timestamp} ()\hypertarget{classVideoHandler_a31fd29045a8a75b4daad184dd1ddb49e}{}\label{classVideoHandler_a31fd29045a8a75b4daad184dd1ddb49e}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a31fd29045a8a75b4daad184dd1ddb49e}{Video\+Handler\+::open\+Timestamp} Opens timestamp file and parses the file. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_a19f870ae02d495c88c5ed52eba0abc9e}{image\+Freed} ()\hypertarget{classVideoHandler_a19f870ae02d495c88c5ed52eba0abc9e}{}\label{classVideoHandler_a19f870ae02d495c88c5ed52eba0abc9e}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a19f870ae02d495c88c5ed52eba0abc9e}{Video\+Handler\+::image\+Freed} slots that gets calles when \+\_\+current\+Image and \+\_\+previous\+Image are removed from the scene. And it deletes them. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_ac3aa37f13e2901e830c0070bbb8aad27}{next\+Image} ()\hypertarget{classVideoHandler_ac3aa37f13e2901e830c0070bbb8aad27}{}\label{classVideoHandler_ac3aa37f13e2901e830c0070bbb8aad27}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_ac3aa37f13e2901e830c0070bbb8aad27}{Video\+Handler\+::next\+Image} slot that sends the next image and updates the overlay. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_a9740f6544f2695785ee84959719da200}{next\+Overlay} ()\hypertarget{classVideoHandler_a9740f6544f2695785ee84959719da200}{}\label{classVideoHandler_a9740f6544f2695785ee84959719da200}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a9740f6544f2695785ee84959719da200}{Video\+Handler\+::next\+Overlay} slot that sends the next \hyperlink{classOverlay}{Overlay} and updates the Image if needed. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_a05c7976f85369df034128b99e13515cc}{previous\+Image} ()\hypertarget{classVideoHandler_a05c7976f85369df034128b99e13515cc}{}\label{classVideoHandler_a05c7976f85369df034128b99e13515cc}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a05c7976f85369df034128b99e13515cc}{Video\+Handler\+::previous\+Image} slot that sends the previous Image and updates the overlay. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_aa438c0abfdb8ddb54d06bf7ce68dc7bc}{previous\+Overlay} ()\hypertarget{classVideoHandler_aa438c0abfdb8ddb54d06bf7ce68dc7bc}{}\label{classVideoHandler_aa438c0abfdb8ddb54d06bf7ce68dc7bc}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_aa438c0abfdb8ddb54d06bf7ce68dc7bc}{Video\+Handler\+::previous\+Overlay} slot that sends the previous \hyperlink{classOverlay}{Overlay} and updates the Image if needed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classVideoHandler_abab55d876a0733246bb93b03d9bb4e6f}{update\+Slider} (int total\+Frames)
+\begin{DoxyCompactList}\small\item\em update\+Slider emitted when the slider needs to be updated \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_ad27bed625ae493aaaeae4e141062868f}{image\+Refresh} (Q\+Graphics\+Pixmap\+Item $\ast$image)
+\begin{DoxyCompactList}\small\item\em image\+Refresh emitted when the image needs to be updated \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_afc0683e30a8dee583596e2beac972133}{overlay\+Refresh} (Q\+Point pos)
+\begin{DoxyCompactList}\small\item\em overlay\+Refresh emitted when the overlay needs to be adjusted \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_ab7b0fb78bcfb33c5b7b33716a3f3e640}{decode} (int images)
+\begin{DoxyCompactList}\small\item\em decode order new frame(s) to be decoded and converted \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_a2840450055e030beb1239a0fbe638831}{free\+Image} ()\hypertarget{classVideoHandler_a2840450055e030beb1239a0fbe638831}{}\label{classVideoHandler_a2840450055e030beb1239a0fbe638831}
+
+\begin{DoxyCompactList}\small\item\em free\+Image request ownership of images that are displayed \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classVideoHandler_ac25de5d277b6a3d8bf09df2f33df281d}{Video\+Handler} ()\hypertarget{classVideoHandler_ac25de5d277b6a3d8bf09df2f33df281d}{}\label{classVideoHandler_ac25de5d277b6a3d8bf09df2f33df281d}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_ac25de5d277b6a3d8bf09df2f33df281d}{Video\+Handler\+::\+Video\+Handler}. \end{DoxyCompactList}\item 
+double \hyperlink{classVideoHandler_acbe73f36a1f9c8e63486f40a3378bdbc}{pos\+M\+Sec} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_acbe73f36a1f9c8e63486f40a3378bdbc}{Video\+Handler\+::pos\+M\+Sec}. \end{DoxyCompactList}\item 
+double \hyperlink{classVideoHandler_a8bef55832d29ab40eb707f0b931e4658}{pos\+Frames} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a8bef55832d29ab40eb707f0b931e4658}{Video\+Handler\+::pos\+Frames}. \end{DoxyCompactList}\item 
+void \hyperlink{classVideoHandler_a89ca1772249f84f62f8854670ed71024}{set\+Pos\+Frames} (double frame, bool update\+Current\+Frame=true)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a89ca1772249f84f62f8854670ed71024}{Video\+Handler\+::set\+Pos\+Frames}. \end{DoxyCompactList}\item 
+double \hyperlink{classVideoHandler_af025d2ccbde21a6b4b7b47cda9336091}{pos\+Relative} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_af025d2ccbde21a6b4b7b47cda9336091}{Video\+Handler\+::pos\+Relative}. \end{DoxyCompactList}\item 
+double \hyperlink{classVideoHandler_a195088916a016f037c73dfcea55f1a46}{framerate} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a195088916a016f037c73dfcea55f1a46}{Video\+Handler\+::framerate}. \end{DoxyCompactList}\item 
+double \hyperlink{classVideoHandler_a16bec3757877062d4c0b19de1b78f6a5}{codec} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a16bec3757877062d4c0b19de1b78f6a5}{Video\+Handler\+::codec}. \end{DoxyCompactList}\item 
+double \hyperlink{classVideoHandler_a38df67408da0a1a51b4752355683ab08}{frame\+Count} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a38df67408da0a1a51b4752355683ab08}{Video\+Handler\+::frame\+Count}. \end{DoxyCompactList}\item 
+Play\+State \hyperlink{classVideoHandler_a24b5a2bbc255cd93dcfe9d9223bd04bb}{play\+State} () const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classVideoHandler_a24b5a2bbc255cd93dcfe9d9223bd04bb}{Video\+Handler\+::play\+State} returns the current play\+State of the video. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classVideoHandler}{Video\+Handler} class handles when each frame and overlay gets displayed on screen synchronized, handles the video buffer, requests frames as needed, allows controll of the playback. 
+
+\subsection{Member Function Documentation}
+\index{Video\+Handler@{Video\+Handler}!codec@{codec}}
+\index{codec@{codec}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{codec() const }{codec() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Video\+Handler\+::codec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classVideoHandler_a16bec3757877062d4c0b19de1b78f6a5}{}\label{classVideoHandler_a16bec3757877062d4c0b19de1b78f6a5}
+
+
+\hyperlink{classVideoHandler_a16bec3757877062d4c0b19de1b78f6a5}{Video\+Handler\+::codec}. 
+
+\begin{DoxyReturn}{Returns}
+Codec of the video that is currently decoded 
+\end{DoxyReturn}
+\index{Video\+Handler@{Video\+Handler}!decode@{decode}}
+\index{decode@{decode}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{decode}{decode}}]{\setlength{\rightskip}{0pt plus 5cm}void Video\+Handler\+::decode (
+\begin{DoxyParamCaption}
+\item[{int}]{images}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}\hypertarget{classVideoHandler_ab7b0fb78bcfb33c5b7b33716a3f3e640}{}\label{classVideoHandler_ab7b0fb78bcfb33c5b7b33716a3f3e640}
+
+
+decode order new frame(s) to be decoded and converted 
+
+
+\begin{DoxyParams}{Parameters}
+{\em images} & count of frames to be decoded \\
+\hline
+\end{DoxyParams}
+\index{Video\+Handler@{Video\+Handler}!frame\+Count@{frame\+Count}}
+\index{frame\+Count@{frame\+Count}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{frame\+Count() const }{frameCount() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Video\+Handler\+::frame\+Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classVideoHandler_a38df67408da0a1a51b4752355683ab08}{}\label{classVideoHandler_a38df67408da0a1a51b4752355683ab08}
+
+
+\hyperlink{classVideoHandler_a38df67408da0a1a51b4752355683ab08}{Video\+Handler\+::frame\+Count}. 
+
+\begin{DoxyReturn}{Returns}
+The total amount of frames in the current playback 
+\end{DoxyReturn}
+\index{Video\+Handler@{Video\+Handler}!framerate@{framerate}}
+\index{framerate@{framerate}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{framerate() const }{framerate() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Video\+Handler\+::framerate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classVideoHandler_a195088916a016f037c73dfcea55f1a46}{}\label{classVideoHandler_a195088916a016f037c73dfcea55f1a46}
+
+
+\hyperlink{classVideoHandler_a195088916a016f037c73dfcea55f1a46}{Video\+Handler\+::framerate}. 
+
+\begin{DoxyReturn}{Returns}
+Framerate of the video that is currently decoded 
+\end{DoxyReturn}
+\index{Video\+Handler@{Video\+Handler}!image\+Refresh@{image\+Refresh}}
+\index{image\+Refresh@{image\+Refresh}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{image\+Refresh}{imageRefresh}}]{\setlength{\rightskip}{0pt plus 5cm}void Video\+Handler\+::image\+Refresh (
+\begin{DoxyParamCaption}
+\item[{Q\+Graphics\+Pixmap\+Item $\ast$}]{image}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}\hypertarget{classVideoHandler_ad27bed625ae493aaaeae4e141062868f}{}\label{classVideoHandler_ad27bed625ae493aaaeae4e141062868f}
+
+
+image\+Refresh emitted when the image needs to be updated 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & \\
+\hline
+\end{DoxyParams}
+\index{Video\+Handler@{Video\+Handler}!overlay\+Refresh@{overlay\+Refresh}}
+\index{overlay\+Refresh@{overlay\+Refresh}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{overlay\+Refresh}{overlayRefresh}}]{\setlength{\rightskip}{0pt plus 5cm}void Video\+Handler\+::overlay\+Refresh (
+\begin{DoxyParamCaption}
+\item[{Q\+Point}]{pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}\hypertarget{classVideoHandler_afc0683e30a8dee583596e2beac972133}{}\label{classVideoHandler_afc0683e30a8dee583596e2beac972133}
+
+
+overlay\+Refresh emitted when the overlay needs to be adjusted 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & \\
+\hline
+\end{DoxyParams}
+\index{Video\+Handler@{Video\+Handler}!play\+State@{play\+State}}
+\index{play\+State@{play\+State}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{play\+State() const }{playState() const }}]{\setlength{\rightskip}{0pt plus 5cm}Video\+Handler\+::\+Play\+State Video\+Handler\+::play\+State (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classVideoHandler_a24b5a2bbc255cd93dcfe9d9223bd04bb}{}\label{classVideoHandler_a24b5a2bbc255cd93dcfe9d9223bd04bb}
+
+
+\hyperlink{classVideoHandler_a24b5a2bbc255cd93dcfe9d9223bd04bb}{Video\+Handler\+::play\+State} returns the current play\+State of the video. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{Video\+Handler@{Video\+Handler}!pos\+Frames@{pos\+Frames}}
+\index{pos\+Frames@{pos\+Frames}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{pos\+Frames() const }{posFrames() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Video\+Handler\+::pos\+Frames (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classVideoHandler_a8bef55832d29ab40eb707f0b931e4658}{}\label{classVideoHandler_a8bef55832d29ab40eb707f0b931e4658}
+
+
+\hyperlink{classVideoHandler_a8bef55832d29ab40eb707f0b931e4658}{Video\+Handler\+::pos\+Frames}. 
+
+\begin{DoxyReturn}{Returns}
+Current positon of the playback in frameposition 
+\end{DoxyReturn}
+\index{Video\+Handler@{Video\+Handler}!pos\+M\+Sec@{pos\+M\+Sec}}
+\index{pos\+M\+Sec@{pos\+M\+Sec}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{pos\+M\+Sec() const }{posMSec() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Video\+Handler\+::pos\+M\+Sec (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classVideoHandler_acbe73f36a1f9c8e63486f40a3378bdbc}{}\label{classVideoHandler_acbe73f36a1f9c8e63486f40a3378bdbc}
+
+
+\hyperlink{classVideoHandler_acbe73f36a1f9c8e63486f40a3378bdbc}{Video\+Handler\+::pos\+M\+Sec}. 
+
+\begin{DoxyReturn}{Returns}
+Current position of the playback in milliseconds 
+\end{DoxyReturn}
+\index{Video\+Handler@{Video\+Handler}!pos\+Relative@{pos\+Relative}}
+\index{pos\+Relative@{pos\+Relative}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{pos\+Relative() const }{posRelative() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Video\+Handler\+::pos\+Relative (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classVideoHandler_af025d2ccbde21a6b4b7b47cda9336091}{}\label{classVideoHandler_af025d2ccbde21a6b4b7b47cda9336091}
+
+
+\hyperlink{classVideoHandler_af025d2ccbde21a6b4b7b47cda9336091}{Video\+Handler\+::pos\+Relative}. 
+
+\begin{DoxyReturn}{Returns}
+Current positon of the playback relative to the entire playback 
+\end{DoxyReturn}
+\index{Video\+Handler@{Video\+Handler}!set\+Pos\+Frames@{set\+Pos\+Frames}}
+\index{set\+Pos\+Frames@{set\+Pos\+Frames}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{set\+Pos\+Frames(double frame, bool update\+Current\+Frame=true)}{setPosFrames(double frame, bool updateCurrentFrame=true)}}]{\setlength{\rightskip}{0pt plus 5cm}void Video\+Handler\+::set\+Pos\+Frames (
+\begin{DoxyParamCaption}
+\item[{double}]{frame, }
+\item[{bool}]{update\+Current\+Frame = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{classVideoHandler_a89ca1772249f84f62f8854670ed71024}{}\label{classVideoHandler_a89ca1772249f84f62f8854670ed71024}
+
+
+\hyperlink{classVideoHandler_a89ca1772249f84f62f8854670ed71024}{Video\+Handler\+::set\+Pos\+Frames}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & Frame to set the \hyperlink{classDecodeWorker}{Decode\+Worker} to. \\
+\hline
+{\em update\+Current\+Frame} & Set \\
+\hline
+\end{DoxyParams}
+\index{Video\+Handler@{Video\+Handler}!update\+Slider@{update\+Slider}}
+\index{update\+Slider@{update\+Slider}!Video\+Handler@{Video\+Handler}}
+\subsubsection[{\texorpdfstring{update\+Slider}{updateSlider}}]{\setlength{\rightskip}{0pt plus 5cm}void Video\+Handler\+::update\+Slider (
+\begin{DoxyParamCaption}
+\item[{int}]{total\+Frames}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}\hypertarget{classVideoHandler_abab55d876a0733246bb93b03d9bb4e6f}{}\label{classVideoHandler_abab55d876a0733246bb93b03d9bb4e6f}
+
+
+update\+Slider emitted when the slider needs to be updated 
+
+
+\begin{DoxyParams}{Parameters}
+{\em total\+Frames} & total count of frames \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+video\+\_\+handler.\+h\item 
+video\+\_\+handler.\+cpp\end{DoxyCompactItemize}
